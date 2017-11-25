@@ -1,20 +1,24 @@
-package application;
+/*Refugee Class that implements */
+
+package refugee;
+
 import java.util.Scanner;
 
 public class Refugee {
 
-	protected String lastName;
-	protected String firstName;
+	protected String last_name;
+	protected String first_name;
 	protected String nationality;
 
-	private String verbalPass;
+	private String verbal_pass;
 
 	protected int age;
 	protected int heightCM;
 	protected String passport;
 
 	protected String gender;
-	protected enum eyeColor {Blue, Black, Brown, Green};
+	protected String eye_Colors;
+
 
 	protected long phone;
 	protected String email;
@@ -22,10 +26,6 @@ public class Refugee {
 	protected String location;
 
 	protected boolean mia;
-
-
-
-
 
 	/**
 	 * Default constructor that calls default constructor
@@ -45,8 +45,8 @@ public class Refugee {
 			String gender, long phone, String email, String location, String vPass, Boolean missing) 
 	{
 		super();
-		this.lastName = lastName;
-		this.firstName = firstName;
+		this.last_name = lastName;
+		this.first_name = firstName;
 		this.nationality = nationality;
 		this.age = age;
 		this.heightCM = heightCM;
@@ -55,10 +55,9 @@ public class Refugee {
 		this.phone = phone;
 		this.email = email;
 		this.location = location;
-		this.verbalPass = vPass;
+		this.verbal_pass = vPass;
 		this.mia = missing;
 	}
-
 
 	/**
 	 * Copy constructor 
@@ -71,43 +70,30 @@ public class Refugee {
 		String[] parts = temp.split(" ");
 
 		Boolean missing = false;
-
-		Refugee r;
+		Refugee ref;
 
 		try
 		{
-			r = new Refugee(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]),Integer.parseInt(parts[4]), parts[5], 
+			ref = new Refugee(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), parts[5], 
 					parts[6], Long.parseLong(parts[7]), parts[8], parts[9],parts[10], missing);
 
-			return r;
+			return ref;
 		}
 		catch(Exception e)
 		{
 			System.out.println("Could not create the refugee object");
-			return r = new Refugee();
+			return ref = new Refugee();
 		}
-
-
-
-
 	}
-
-
+	
 	/**
 	 * toString method
 	 */
 	@Override
 	public String toString() {
-		return   lastName +" "+ firstName +" "+ nationality+" "+age+" "+ heightCM+" "+passport+" "+gender+" "+phone
+		return   last_name +" "+ first_name +" "+ nationality+" "+age+" "+ heightCM+" "+passport+" "+gender+" "+phone
 				+" "+email+" "+location;
 	}
-
-
-
-
-
-
-
 
 
 }

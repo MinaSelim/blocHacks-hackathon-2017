@@ -79,7 +79,7 @@ public class LoginController
 				control.setUpNetworking(ipAddress.getText(), Integer.parseInt(port.getText()));
 				if(control.isConnected())
 				{
-					scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					scene.getStylesheets().add(getClass().getResource("Action.css").toExternalForm());
 					primaryStage.setScene(scene);
 					primaryStage.show();
 					primaryStage.setOnCloseRequest(Event -> System.exit(0));

@@ -93,7 +93,7 @@ public class SearchController {
 					DisplayRefController control = loader.<DisplayRefController>getController();
 					control.setUpNetworking(write_server, scan_server);
 					control.setRefugee(r2);
-					scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					scene.getStylesheets().add(getClass().getResource("DisplayRefInfo.css").toExternalForm());
 					primaryStage.setScene(scene);
 					primaryStage.show();
 				}

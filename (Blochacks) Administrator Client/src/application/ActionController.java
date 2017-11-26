@@ -54,7 +54,7 @@ public class ActionController
 			Scene scene = new Scene(root);
 			SearchController control = loader.<SearchController>getController();
 			control.setUpNetworking(connection);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("search.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}
@@ -75,7 +75,7 @@ public class ActionController
 			Scene scene = new Scene(root);
 			RegistrationController control = loader.<RegistrationController>getController();
 			control.setUpNetworking(connection);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("Registration.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		}

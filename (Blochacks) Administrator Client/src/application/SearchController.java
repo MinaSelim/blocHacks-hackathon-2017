@@ -35,6 +35,12 @@ public class SearchController {
 		try
 		{
 			write_server = new PrintWriter(x.getOutputStream());
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			scan_server = new Scanner(x.getInputStream());
 		}
 		catch(IOException e)
@@ -53,31 +59,50 @@ public class SearchController {
 	@FXML
 	public void login(ActionEvent event) {
 	
-			
+			write_server.println("SearchforRefugee: ");
 			write_server.println(serialNumber.getText());
 			write_server.flush();
-			Refugee r2= new Refugee(scan_server);
-			
-			// if successful do the following
-			try
-			{
-				Stage primaryStage= new Stage();
-				FXMLLoader loader = new FXMLLoader(); 
-				loader.setLocation(getClass().getResource("DisplayRefInfo.fxml")); 
-				Parent root= loader.load(); 
-				Scene scene = new Scene(root);
-				DisplayRefController control = loader.<DisplayRefController>getController();
-				control.setUpNetworking(write_server, scan_server);
-				control.setRefugee(r2);
-				scene.getStylesheets().add(getClass().getResource("registration.css").toExternalForm());
-				primaryStage.setScene(scene);
-				primaryStage.show();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			catch(Exception e)
+		
+			String key =  scan_server.next();
+			System.out.println(key);
+			if(key.equalsIgnoreCase("Cannotfindfingerprint:"))
 			{
-				e.printStackTrace();
+				status.setText("Cannot find the print");
+				return;
 			}
-			// if failed
+				
+			else if(key.equalsIgnoreCase("RefugeeFound:"))
+			{
+				Refugee r2= new Refugee(scan_server);
+				System.out.println(r2);
+				
+				// if successful do the following
+				try
+				{
+					Stage primaryStage= new Stage();
+					FXMLLoader loader = new FXMLLoader(); 
+					loader.setLocation(getClass().getResource("DisplayRefInfo.fxml")); 
+					Parent root= loader.load(); 
+					Scene scene = new Scene(root);
+					DisplayRefController control = loader.<DisplayRefController>getController();
+					control.setUpNetworking(write_server, scan_server);
+					control.setRefugee(r2);
+					scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					primaryStage.setScene(scene);
+					primaryStage.show();
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+	
 			 
 			  
 			 

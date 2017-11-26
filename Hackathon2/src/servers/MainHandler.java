@@ -6,13 +6,18 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import refugee.Refugee;
+import refugees.Refugee;
 
 public class MainHandler implements Runnable {
 	protected PrintWriter writeToClient;
 	protected Socket client;
 	protected Scanner kb;
-	private ArrayList <Refugee> ref = new ArrayList<Refugee>();
+	private static ArrayList <Refugee> mia_refugee = new ArrayList<Refugee>();
+	
+	public void addToArrayList(Refugee o)
+	{
+		
+	}
 	
 	
 	public MainHandler(Socket s){
@@ -23,10 +28,8 @@ public class MainHandler implements Runnable {
 			kb = new Scanner(client.getInputStream());
 			Thread.sleep(1000);
 			writeToClient = new PrintWriter(client.getOutputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException | InterruptedException e) {
+			System.out.println("Couldnt connect");
 			e.printStackTrace();
 		}
 		Thread thread = new Thread(this);
@@ -34,26 +37,37 @@ public class MainHandler implements Runnable {
 	}
     public void run() {
 		System.out.println("thread is running");
-				processRequest();
+			processRequest();
 				}
 	public void processRequest() {
 		{
-		if(kb.next().equalsIgnoreCase("SendingRefugeeto:")) {
-			sendInformation();
-		}
-		else if(kb.next().equalsIgnoreCase("StoreMIARefugee:"))
-			storeInformation();
-		else if(kb.next().equalsIgnoreCase("SearchforRefugee:"))
-		{
-			long fingerPrint=kb.nextLong();
-			Refugee tempRef = findRefugee(fingerPrint);
-			if(tempRef==null)
-				writeToClient.println("Cannotfindfingerprint:");
-			else
-				writeToClient.println(tempRef);
-		}
+			while(true)
+			{
+				if(kb.hasNext())
+				{
+					String key = kb.next();
+					if(key.equalsIgnoreCase("SendingRefugeeto:")) {
+						sendInformation();
+					}
+					else if(key.equalsIgnoreCase("StoreMIARefugee:"))
+						storeInformation();
+					else if(key.equalsIgnoreCase("SearchforRefugee:"))
+					{
+						long fingerPrint=kb.nextLong();
+						Refugee tempRef = findRefugee(fingerPrint);
+						if(tempRef==null)
+							writeToClient.println("Cannotfindfingerprint:");
+						else
+							writeToClient.println(tempRef);
+					}
+					writeToClient.flush();
+				}
 			
+					
+			}
+	
 	}
+		
 	}
 	public void sendInformation() {   	
 		try {
@@ -66,7 +80,6 @@ public class MainHandler implements Runnable {
 			writeToClient.println(kb.next());
 			}
 			writeToClient.flush();
-			//deleteRefugee()
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -74,21 +87,27 @@ public class MainHandler implements Runnable {
 		
 		}
 	public Refugee  findRefugee(long fingerPrint) {
-		for(int i=0;i<ref.size();i++)
+		for(int i=0;i<mia_refugee.size();i++)
 		{
-			if(ref.get(i).getFingerprint() == fingerPrint)
-				writeToClient.println("RefugeeFound: "+ref.get(i));
+			if(mia_refugee.get(i).getFingerprint() == fingerPrint)
+			{
+				writeToClient.println("RefugeeFound: "+mia_refugee.get(i));
+				writeToClient.flush();
+			}
 		}
 		return null;
 	}
+	
 	public void storeInformation() {
-		ref.add(new Refugee(kb));
-		System.out.println(ref.get(0));
+		System.out.println("store here");
+		Refugee temp = new Refugee(kb);
+		addToArrayList(temp);
+		//System.out.println(temp);
 	}
-	public void deleteRefugee(Refugee refugee) {
-		for(int i=0;i<ref.size();i++) {
-			if(ref.get(i).getFingerprint()==refugee.getFingerprint())
-				ref.remove(i);
+	public void delete(Refugee refugee) {
+		for(int i=0;i<mia_refugee.size();i++) {
+			if(mia_refugee.get(i).getFingerprint()==refugee.getFingerprint())
+				mia_refugee.remove(i);
 		}
 		
 	}

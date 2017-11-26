@@ -50,7 +50,7 @@ public class LoginController
 				labelStatus.setText("Login failed");
 			}
 		}
-		if(!ipAddress.getText().equals("")&&isInteger(port.getText())&&ipAddress.getText().equals(""))
+		if(!ipAddress.getText().equals("")&&isInteger(port.getText())&&!port.getText().equals(""))
 		{	
 			ipCompletion.setText("");
 			portCompletion.setText("");

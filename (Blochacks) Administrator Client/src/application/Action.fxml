@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.adminClient.ActionController">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ActionController">
    <children>
       <Button fx:id="searchBtn" layoutX="72.0" layoutY="73.0" mnemonicParsing="false" onAction="#search" prefHeight="51.0" prefWidth="114.0" text="Search for refugee" textFill="#ff0606" />
       <Button fx:id="addBtn" layoutX="302.0" layoutY="73.0" mnemonicParsing="false" onAction="#add" prefHeight="51.0" prefWidth="107.0" text="Add new refugee" textFill="#ff0606" />

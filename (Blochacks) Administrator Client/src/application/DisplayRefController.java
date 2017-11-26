@@ -6,6 +6,7 @@ import java.util.Scanner;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import refugees.Refugee;
 
 public class DisplayRefController {
 	@FXML
@@ -54,8 +55,17 @@ public class DisplayRefController {
 	
 	private PrintWriter print_server;
 	private Scanner read_server;
+	private Refugee refugee;
 	
 	public void displayInfoFromServer(ActionEvent event){
+		
+	}
+	public void setRefugee(Refugee r)
+	{
+		refugee = r;
+		firstName.setText(refugee.getFirst_name());
+		lastName.setText(refugee.getLast_name());
+		
 		
 	}
 	public void setUpNetworking(PrintWriter print, Scanner scan)

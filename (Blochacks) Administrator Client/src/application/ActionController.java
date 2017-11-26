@@ -43,14 +43,34 @@ public class ActionController
 		return connected;
 	}
 
-
 	public void search(ActionEvent ae)
 	{	
 		try
 		{
 			Stage primaryStage= new Stage();
 			FXMLLoader loader = new FXMLLoader(); 
-			loader.setLocation(getClass().getResource("Registration.fxml")); 
+			loader.setLocation(getClass().getResource("Search.fxml")); 
+			Parent root= loader.load(); 
+			Scene scene = new Scene(root);
+			SearchController control = loader.<SearchController>getController();
+			control.setUpNetworking(connection);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		}
+			
+		catch(Exception e)
+		{
+			System.out.println("cant processs");
+		}
+	}
+	
+	public void add(ActionEvent ae) 
+	{		
+		try
+		{
+			Stage primaryStage= new Stage();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Registration.fxml")); 
 			Parent root= loader.load(); 
 			Scene scene = new Scene(root);
 			RegistrationController control = loader.<RegistrationController>getController();
@@ -61,28 +81,7 @@ public class ActionController
 		}
 		catch(Exception e)
 		{
-			
-		}
-	}
-	
-	public void add(ActionEvent ae) 
-	{		
-		try
-		{
-			Stage primaryStage= new Stage();
-			FXMLLoader loader = new FXMLLoader(); 
-			loader.setLocation(getClass().getResource("Search.fxml")); 
-			Parent root= loader.load(); 
-			Scene scene = new Scene(root);
-			SearchController control = loader.<SearchController>getController();
-			control.setUpNetworking(connection);
-			scene.getStylesheets().add(getClass().getResource("registration.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		}
-		catch(Exception e)
-		{
-			
+			e.printStackTrace();
 		}
 	}
 	

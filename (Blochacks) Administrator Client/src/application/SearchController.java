@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import refugees.Refugee;
 
 public class SearchController {
 	@FXML
@@ -55,11 +56,8 @@ public class SearchController {
 			
 			write_server.println(serialNumber.getText());
 			write_server.flush();
-			if (serialNumber.getText().equals("123")) {
-				status.setText("Valid");
-			} else {
-				status.setText("Invalid");
-			}
+			Refugee r2= new Refugee(scan_server);
+			
 			// if successful do the following
 			try
 			{
@@ -70,6 +68,7 @@ public class SearchController {
 				Scene scene = new Scene(root);
 				DisplayRefController control = loader.<DisplayRefController>getController();
 				control.setUpNetworking(write_server, scan_server);
+				control.setRefugee(r2);
 				scene.getStylesheets().add(getClass().getResource("registration.css").toExternalForm());
 				primaryStage.setScene(scene);
 				primaryStage.show();
@@ -78,6 +77,7 @@ public class SearchController {
 			{
 				e.printStackTrace();
 			}
+			// if failed
 			 
 			  
 			 

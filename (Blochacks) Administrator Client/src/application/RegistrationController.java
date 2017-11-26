@@ -1,7 +1,5 @@
 package application;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -9,6 +7,7 @@ import java.util.Scanner;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import refugees.Refugee;
 
@@ -53,7 +52,7 @@ public class RegistrationController {
 	private TextField age;
 
 	@FXML
-	private TextField addInfo;
+	private TextArea addInfo;
 	@FXML
 	private TextField serialNumber;
 
@@ -69,13 +68,14 @@ public class RegistrationController {
 	 */
 	@FXML
 	public void submit(ActionEvent event) {
+		System.out.println("Submit");
 		Integer x = Integer.parseInt(age.getText());
 		Integer y = Integer.parseInt(height.getText());
 		Long z = Long.parseLong(phone.getText());
 		long serial= Long.parseLong(serialNumber.getText());
 		Refugee r1 = new Refugee(firstName.getText(), lastName.getText(), nationality.getText(), x, y,
 				passport.getText(), gender.getText(), z, mail.getText(), address.getText(),password.getText(),serial,addInfo.getText() ,false);
-			print_server.print("SendingnewRefugee: ");
+			print_server.print("CreatenewRefugee: ");
 			print_server.print(r1.toString());
 			print_server.flush();
 			

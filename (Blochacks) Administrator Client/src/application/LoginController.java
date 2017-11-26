@@ -1,6 +1,8 @@
 package application;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +16,15 @@ import javafx.stage.Stage;
 
 public class LoginController 
 {
+	
+	private Scanner scan_server;
+	private PrintWriter write_server;
+	
+	
+	
+	
+	
+	
 	@FXML
 	private Label labelStatus;
 	
@@ -50,10 +61,13 @@ public class LoginController
 				labelStatus.setText("Login failed");
 			}
 		}
-		if(!ipAddress.getText().equals("")&&isInteger(port.getText())&&ipAddress.getText().equals(""))
+		if(!ipAddress.getText().equals("") && isInteger(port.getText())&& !port.getText().equals(""))
 		{	
+			
 			ipCompletion.setText("");
 			portCompletion.setText("");
+			
+			
 			Stage primaryStage= new Stage();
 			FXMLLoader loader = new FXMLLoader(); 
 			loader.setLocation(getClass().getResource("Action.fxml")); 
@@ -96,4 +110,10 @@ public class LoginController
 			return false;
 		}
 	}
+	
+	
+	
+	
+	
+	
 }

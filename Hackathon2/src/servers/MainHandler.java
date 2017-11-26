@@ -6,18 +6,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import refugees.Refugee;
+import refugee.Refugee;
 
 public class MainHandler implements Runnable {
 	protected PrintWriter writeToClient;
 	protected Socket client;
 	protected Scanner kb;
-	private static ArrayList <Refugee> mia_refugee = new ArrayList<Refugee>();
+	private ArrayList <Refugee> ref = new ArrayList<Refugee>();
 	
-	public void addToArrayList(Refugee o)
-	{
-		
-	}
 	
 	public MainHandler(Socket s){
 		client = s;
@@ -27,8 +23,10 @@ public class MainHandler implements Runnable {
 			kb = new Scanner(client.getInputStream());
 			Thread.sleep(1000);
 			writeToClient = new PrintWriter(client.getOutputStream());
-		} catch (IOException | InterruptedException e) {
-			System.out.println("Couldnt connect");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Thread thread = new Thread(this);
@@ -36,21 +34,21 @@ public class MainHandler implements Runnable {
 	}
     public void run() {
 		System.out.println("thread is running");
-			processRequest();
+				processRequest();
 				}
 	public void processRequest() {
 		{
-		if(kb.next().equalsIgnoreCase("SendingRefugeeto: ")) {
+		if(kb.next().equalsIgnoreCase("SendingRefugeeto:")) {
 			sendInformation();
 		}
-		else if(kb.next().equalsIgnoreCase("StoreMIARefugee: "))
+		else if(kb.next().equalsIgnoreCase("StoreMIARefugee:"))
 			storeInformation();
 		else if(kb.next().equalsIgnoreCase("SearchforRefugee:"))
 		{
 			long fingerPrint=kb.nextLong();
 			Refugee tempRef = findRefugee(fingerPrint);
 			if(tempRef==null)
-				writeToClient.println("Cannotfindfingerprint: ");
+				writeToClient.println("Cannotfindfingerprint:");
 			else
 				writeToClient.println(tempRef);
 		}
@@ -68,6 +66,7 @@ public class MainHandler implements Runnable {
 			writeToClient.println(kb.next());
 			}
 			writeToClient.flush();
+			//deleteRefugee()
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -75,19 +74,23 @@ public class MainHandler implements Runnable {
 		
 		}
 	public Refugee  findRefugee(long fingerPrint) {
-		for(int i=0;i<mia_refugee.size();i++)
+		for(int i=0;i<ref.size();i++)
 		{
-			if(mia_refugee.get(i).getFingerprint() == fingerPrint)
-				writeToClient.println(mia_refugee.get(i));
+			if(ref.get(i).getFingerprint() == fingerPrint)
+				writeToClient.println("RefugeeFound: "+ref.get(i));
 		}
 		return null;
 	}
 	public void storeInformation() {
-		System.out.println("store here");
-		Refugee temp = new Refugee(kb);
-		addToArrayList(temp);
-		//System.out.println(temp);
+		ref.add(new Refugee(kb));
+		System.out.println(ref.get(0));
 	}
-	
+	public void deleteRefugee(Refugee refugee) {
+		for(int i=0;i<ref.size();i++) {
+			if(ref.get(i).getFingerprint()==refugee.getFingerprint())
+				ref.remove(i);
+		}
+		
+	}
 
 }

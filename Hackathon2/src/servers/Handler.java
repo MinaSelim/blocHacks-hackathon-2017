@@ -1,62 +1,48 @@
 package servers;
+import refugee.Refugee;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import refugees.Refugee;
+import refugee.Refugee;
 
 public class Handler extends MainHandler {
 	
+	protected PrintWriter writeToClient;
 	protected PrintWriter writeToHub;
-	private static ArrayList <Refugee> refugees_list = new ArrayList<Refugee>();
-	
-	public void addToArrayList(Refugee o)
-	{
-		//System.out.println(o);
-		refugees_list.add(o);
-		System.out.println("size: " + refugees_list.size());
-	}
+	protected Socket client;
+	protected Scanner kb;
+	private ArrayList <Refugee> ref = new ArrayList<Refugee>();
 	
 	public Handler(Socket s){
 		super(s);
 	}
 	public void processRequest() {
-		while(true)
-		{
-			if(kb.hasNext())
-			{
-				String request = kb.next();
-				System.out.println(request);
-				if(request.equalsIgnoreCase("SendingRefugeeto:")) {
-					long fingerPrint=kb.nextLong();
-					String ipAddress=kb.next();
-					int port = kb.nextInt();
-					Refugee tempRef=findRefugee(fingerPrint);
-				    sendInformation(tempRef,ipAddress,port);
-				}
-				else if(request.equalsIgnoreCase("CreatenewRefugee:"))
-					storeInformation();
-				else if(request.equalsIgnoreCase("SearchforRefugee:"))
-				{
-					long fingerPrint=kb.nextLong();
-					Refugee tempRef = findRefugee(fingerPrint);
-					if(tempRef==null)
-						writeToClient.println("Cannotfindfingerprint");
-					else
-						writeToClient.println(tempRef);
-				}
-				else if(request.equalsIgnoreCase("StoreMIARRefugee: "))
-				{
-					long fingerPrint=kb.nextLong();
-					storeMIARefugee(fingerPrint);
-				}
-				
-			}
+		if(kb.next().equalsIgnoreCase("SendingRefugeeto:")) {
+			long fingerPrint=kb.nextLong();
+			String ipAddress=kb.next();
+			int port = kb.nextInt();
+			Refugee tempRef=findRefugee(fingerPrint);
+		    sendInformation(tempRef,ipAddress,port);
 		}
-	
-	
+		else if(kb.next().equalsIgnoreCase("CreatenewRefugee:"))
+			storeInformation();
+		else if(kb.next().equalsIgnoreCase("SearchforRefugee:"))
+		{
+			long fingerPrint=kb.nextLong();
+			Refugee tempRef = findRefugee(fingerPrint);
+			if(tempRef==null)
+				writeToClient.println("Cannotfindfingerprint:");
+			else
+				writeToClient.println(tempRef);
+		}
+		else if(kb.next().equalsIgnoreCase("StoreMIARRefugee:"))
+				{
+				long fingerPrint=kb.nextLong();
+				storeMIARefugee(fingerPrint);
+				}
 		
 				
 	 }
@@ -65,6 +51,7 @@ public class Handler extends MainHandler {
 		try {
 			Socket s = new Socket("127.0.0.1",4242);
 			writeToHub=new PrintWriter(s.getOutputStream());
+			writeToHub.flush();
 		}
 		catch(IOException e) {
 			e.printStackTrace();
@@ -87,8 +74,8 @@ public class Handler extends MainHandler {
 		write.flush();
 		 if(readFromHub.hasNext())
 		 {
-		refugees_list.add(new Refugee(readFromHub));
-	     return(refugees_list.get(refugees_list.size()-1));
+	     ref.add(new Refugee(readFromHub));
+	     return(ref.get(ref.size()-1));
 		 }
 		 return null;
 		 

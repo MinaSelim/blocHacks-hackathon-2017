@@ -6,14 +6,18 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import refugee.Refugee;
+import refugees.Refugee;
 
 public class MainHandler implements Runnable {
 	protected PrintWriter writeToClient;
 	protected Socket client;
 	protected Scanner kb;
-	private ArrayList <Refugee> ref = new ArrayList<Refugee>();
+	private static ArrayList <Refugee> mia_refugee = new ArrayList<Refugee>();
 	
+	public void addToArrayList(Refugee o)
+	{
+		
+	}
 	
 	public MainHandler(Socket s){
 		client = s;
@@ -21,8 +25,10 @@ public class MainHandler implements Runnable {
 		
 		try {
 			kb = new Scanner(client.getInputStream());
+			Thread.sleep(1000);
 			writeToClient = new PrintWriter(client.getOutputStream());
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
+			System.out.println("Couldnt connect");
 			e.printStackTrace();
 		}
 		Thread thread = new Thread(this);
@@ -30,7 +36,7 @@ public class MainHandler implements Runnable {
 	}
     public void run() {
 		System.out.println("thread is running");
-				processRequest();
+			processRequest();
 				}
 	public void processRequest() {
 		{
@@ -69,16 +75,18 @@ public class MainHandler implements Runnable {
 		
 		}
 	public Refugee  findRefugee(long fingerPrint) {
-		for(int i=0;i<ref.size();i++)
+		for(int i=0;i<mia_refugee.size();i++)
 		{
-			if(ref.get(i).getFingerprint() == fingerPrint)
-				writeToClient.println(ref.get(i));
+			if(mia_refugee.get(i).getFingerprint() == fingerPrint)
+				writeToClient.println(mia_refugee.get(i));
 		}
 		return null;
 	}
 	public void storeInformation() {
-		ref.add(new Refugee(kb));
-		System.out.println(ref.get(0));
+		System.out.println("store here");
+		Refugee temp = new Refugee(kb);
+		addToArrayList(temp);
+		//System.out.println(temp);
 	}
 	
 

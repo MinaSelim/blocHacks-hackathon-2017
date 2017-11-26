@@ -65,6 +65,14 @@ public class DisplayRefController {
 		refugee = r;
 		firstName.setText(refugee.getFirst_name());
 		lastName.setText(refugee.getLast_name());
+		passport.setText(refugee.getPassport());
+		gender.setText(refugee.getGender());
+		address.setText(refugee.getLocation());
+		nationality.setText(refugee.getNationality());
+		eye.setText(refugee.getEye_Colors());
+		height.setText(Integer.toString(refugee.getHeightCM()));
+		
+		
 		
 		
 	}

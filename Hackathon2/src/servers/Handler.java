@@ -64,13 +64,16 @@ public class Handler extends MainHandler {
 	public void sendInformation(Refugee tempRef,String ipAddress,int port) {
 	   
 		try {
-			Socket s = new Socket("127.0.0.1",4242);
+			Socket s = new Socket("192.168.43.25",4242);
 			writeToHub=new PrintWriter(s.getOutputStream());
+			
 		}
 		catch(IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("SendingRefugeeto: "+ipAddress+" "+port+" "+tempRef);
 		writeToHub.println("SendingRefugeeto: "+ipAddress+" "+port+" "+tempRef);
+		writeToHub.flush();
 		}
 	public Refugee  findRefugee(long fingerPrint) {
 		for(int i=0;i<refugees_list.size();i++)
@@ -133,7 +136,7 @@ public class Handler extends MainHandler {
 	public void sendInformation(Refugee tempRef)
 	{
 		try {
-		Socket s = new Socket("127.0.0.1",4242);
+		Socket s = new Socket("192.168.43.25",4242);
 		
 		}
 		catch(IOException e) {

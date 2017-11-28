@@ -75,10 +75,11 @@ public class MainHandler implements Runnable {
 		   	int port=kb.nextInt();
 			Socket s = new Socket(ipAddress,port);
 			writeToClient=new PrintWriter(s.getOutputStream());
-			while(kb.hasNext()) {
+			
+			
 			writeToClient.println("CreatenewRefugee: ");
-			writeToClient.println(kb.next());
-			}
+			writeToClient.println(new Refugee(kb));
+			
 			writeToClient.flush();
 		}
 		catch(IOException e) {
